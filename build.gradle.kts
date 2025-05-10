@@ -25,10 +25,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql:42.7.4")
+    runtimeOnly("org.postgresql:r2dbc-postgresql")
+    runtimeOnly("org.postgresql:postgresql")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
     implementation("io.netty:netty-codec-http:4.1.115.Final")
 
