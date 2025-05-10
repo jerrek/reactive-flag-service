@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Create Country table -->
+    <changeSet id="1" author="NOX">
+        <createTable tableName="country">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Create City table -->
+    <changeSet id="2" author="NOX">
+        <createTable tableName="city">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="city" baseColumnNames="country_id"
+                constraintName="fk_city_country"
+                referencedTableName="country" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Create Street table -->
+    <changeSet id="3" author="NOX">
+        <createTable tableName="street">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="street" baseColumnNames="city_id"
+                constraintName="fk_street_city"
+                referencedTableName="city" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Create Address table -->
+    <changeSet id="4" author="NOX">
+        <createTable tableName="address">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="house" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="address" baseColumnNames="street_id"
+                constraintName="fk_address_street"
+                referencedTableName="street" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Create Feature Toggle table -->
+    <changeSet id="5" author="NOX">
+        <createTable tableName="feature_toggle">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="feature_toggle" baseColumnNames="address_id"
+                constraintName="fk_feature_toggle_address"
+                referencedTableName="address" referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
