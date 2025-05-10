@@ -5,6 +5,9 @@ spring:
     url: r2dbc:postgresql://localhost:5432/flags_db
     username: user
     password: password
+    pool:
+      max-size: 10
+      initial-size: 2
   datasource:
     url: jdbc:postgresql://localhost:5432/flags_db
     username: user
