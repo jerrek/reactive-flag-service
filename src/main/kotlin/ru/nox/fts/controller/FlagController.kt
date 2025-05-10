@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @RestController
-@RequestMapping("/api/feature-toggles")
+@RequestMapping("/api/flags")
 class FlagController(private val service: FlagService) {
 
     @GetMapping("/{name}")

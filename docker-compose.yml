@@ -13,7 +13,7 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
-      - fts-app-network
+      - flag-service-app-network
 
   redis:
     container_name: redis
@@ -23,13 +23,16 @@ services:
     volumes:
       - redis-data:/data
     networks:
-      - fts-app-network
+      - flag-service-app-network
 
   app:
-    image: ftsapp:latest # Название вашего образа
-    container_name: ftsapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    image: flag-service-app:latest # Название вашего образа
+    container_name: flag-service-app
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/featuredb
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/flags_db
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_REDIS_HOST=redis
@@ -40,12 +43,12 @@ services:
       - postgres
       - redis
     networks:
-      - fts-app-network
+      - flag-service-app-network
 
 volumes:
   postgres-data:
   redis-data:
 
 networks:
-  fts-app-network:
+  flag-service-app-network:
     driver: bridge

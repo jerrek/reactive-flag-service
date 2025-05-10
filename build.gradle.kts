@@ -7,7 +7,7 @@ plugins {
     id("io.gatling.gradle") version "3.9.5"
 }
 
-group = "ru.nox.fts"
+group = "ru.nox.reactiveflagservice"
 version = "1.0.0"
 
 java.sourceCompatibility = JavaVersion.VERSION_21
