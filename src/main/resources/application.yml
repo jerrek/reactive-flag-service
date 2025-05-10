@@ -34,7 +34,7 @@ logging:
     root: INFO                 # Общий уровень логов (INFO, DEBUG, WARN, ERROR)
     org.springframework: INFO # Логирование Spring компонентов на уровне DEBUG
     org.springframework.r2dbc: INFO # Логирование R2DBC
-    liquibase: DEBUG            # Логирование Liquibase
+    liquibase: info            # Логирование Liquibase
     org.springframework.data.redis: INFO  # Логирование Redis операций
   file:
     name: logs/feature-toggle-service.log # Путь к файлу логов
