@@ -1,54 +1,72 @@
 plugins {
     kotlin("jvm") version "2.0.20"
     id("org.springframework.boot") version "3.2.0"
-    id("io.spring.dependency-management") version "1.1.3"
-    kotlin("plugin.spring") version "1.9.10"
-    kotlin("plugin.jpa") version "1.9.10"
-    id("io.gatling.gradle") version "3.13.1"
+    id("io.spring.dependency-management") version "1.1.4"
+    kotlin("plugin.spring") version "2.0.20"
+    kotlin("plugin.jpa") version "2.0.20"
+    id("io.gatling.gradle") version "3.9.5"
 }
 
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
+group = "ru.nox.fts"
+version = "1.0.0"
 
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // Spring Boot Webflux
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-
-    // Database R2DBC
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
-    implementation("org.liquibase:liquibase-core")
-
-    // Redis Cache
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("io.lettuce:lettuce-core:6.5.1.RELEASE")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    runtimeOnly("org.postgresql:r2dbc-postgresql")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.liquibase:liquibase-core")
+    implementation("org.postgresql:postgresql:42.7.4")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
+    implementation("io.netty:netty-codec-http:4.1.115.Final")
 
-    // Test Containers
-    testImplementation("org.testcontainers:junit-jupiter:1.19.0")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("com.redis.testcontainers:testcontainers-redis:1.6.4")
-
-    // Reactor and Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
-    // Testing Dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
-    testImplementation("io.gatling:gatling-core:3.9.5")
-    testImplementation("io.gatling:gatling-http:3.9.5")
-    testImplementation("io.gatling.highcharts:gatling-charts-highcharts:3.9.5")
-    testImplementation("io.gatling:gatling-recorder:3.9.5")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("com.redis.testcontainers:testcontainers-redis:1.6.4")
+    testImplementation("io.mockk:mockk:1.13.7")
+
+    // Зависимость для Gatling
+    implementation("io.gatling:gatling-core:3.9.5")
+    implementation("io.gatling:gatling-http:3.9.5")
+    implementation("io.gatling:gatling-jdbc:3.9.5") // Если требуется JDBC для тестов
+    implementation("io.gatling.highcharts:gatling-charts-highcharts:3.9.5") // Для отчетов с Highcharts
+
+    // Зависимость для Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to "ru.nox.fts.Fts" // Замените на ваш основной класс
+        )
+    }
+}
+//tasks.withType<Jar>() {
+//    manifest {
+//        attributes["Main-Class"] = "Fts.kt"
+//    }
+//    configurations["compileClasspath"].forEach { file: File ->
+//        from(zipTree(file.absoluteFile))
+//    }
+//}
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }

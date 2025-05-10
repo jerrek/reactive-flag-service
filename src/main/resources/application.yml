@@ -2,15 +2,39 @@ spring:
   application:
     name: feature-toggle-service
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/featuredb
+    url: r2dbc:postgresql://localhost:5432/flags_db
+    username: user
+    password: password
+  datasource:
+    url: jdbc:postgresql://localhost:5432/flags_db
     username: user
     password: password
   redis:
-    host: localhost
+    host: ${SPRING_REDIS_HOST:localhost}
     port: 6379
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master.xml
+    driver-class-name: org.postgresql.Driver
+    user: user
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: none
 
 server:
   port: 8080
-
-liquibase:
-  change-log: classpath:db/changelog/db.changelog-master.xml
+#TODO не видит редис и возможно постгрес
+# Конфигурация логирования
+logging:
+  level:
+    root: INFO                 # Общий уровень логов (INFO, DEBUG, WARN, ERROR)
+    org.springframework: INFO # Логирование Spring компонентов на уровне DEBUG
+    org.springframework.r2dbc: INFO # Логирование R2DBC
+    liquibase: INFO            # Логирование Liquibase
+    org.springframework.data.redis: INFO  # Логирование Redis операций
+  file:
+    name: logs/feature-toggle-service.log # Путь к файлу логов
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n" # Шаблон логов для консоли
+#    file: "%d{yyyy-MM-dd HH:mm:ss} - %level - %logger{36} - %msg%n" # Шаблон логов для файла
