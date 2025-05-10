@@ -1,0 +1,27 @@
+<databaseChangeLog
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-table-person" author="NOX">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        </sql>
+        <createTable tableName="flag">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(2000)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValue="f"/>
+<!--            Подумать над геолокацией -->
+<!--            <column name="country" type="varchar(255)"/>-->
+<!--            <column name="city" type="varchar(255)"/>-->
+<!--            <column name="street" type="varchar(255)"/>-->
+<!--            <column name="house" type="varchar(255)"/>-->
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

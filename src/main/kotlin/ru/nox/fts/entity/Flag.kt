@@ -1,4 +1,4 @@
-package ru.nox.fts.model
+package ru.nox.fts.entity
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table

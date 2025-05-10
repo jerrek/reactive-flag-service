@@ -1,7 +1,7 @@
 package ru.nox.fts.controller
 
 import jakarta.validation.Valid
-import ru.nox.fts.model.Flag
+import ru.nox.fts.entity.Flag
 import ru.nox.fts.service.FlagService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
